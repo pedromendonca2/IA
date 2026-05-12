@@ -11,7 +11,7 @@ def funcao_lucro(sol):
 
     A função recebe uma tupla (xA, xB, xC) representando a quantidade de cada produto e retorna o lucro total.
     """
-    xA, xB, xC, xD = sol
+    xA, xB, xC = sol
     return 30*xA + 50*xB + 40*xC
 
 
@@ -25,7 +25,7 @@ def verifica_restricoes(sol):
 
     A função recebe uma tupla (xA, xB, xC) e retorna True se a solução for válida, ou False caso contrário.
     """
-    xA, xB, xC, xD = sol
+    xA, xB, xC = sol
 
     if min(sol) < 0:
         return False
