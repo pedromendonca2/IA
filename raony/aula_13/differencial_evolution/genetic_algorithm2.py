@@ -23,7 +23,7 @@ def selecao(pop_inicial):
         
         pop_intermediaria.append(ind_1) if fitness(ind_1) < fitness(ind_2) else pop_intermediaria.append(ind_2)
         
-    return pop_intermediaria
+    return np.array(pop_intermediaria)
 
 def crossover(pop_inicial, txCrossover = 0.7):
     pop_intermediaria = []

@@ -1,4 +1,5 @@
 import numpy as np
+import matplotlib.pyplot as plt
 
 N_GENES = 30
 SIZE_POPULACAO = 100
@@ -15,7 +16,7 @@ def fitness(individuo):
     return result
 
 def init_populacao():
-    return np.random.uniform(-32, 32, size=(SIZE_POPULACAO, N_GERACOES))
+    return np.random.uniform(-32, 32, size=(SIZE_POPULACAO, N_GENES)) # Ackley function
 
 def selection(popp):
     popi = []
@@ -28,53 +29,60 @@ def selection(popp):
         else:
             popi.append(ind_b)
 
-    return popi
+    return np.array(popi)
 
 def crossover(popi):
-    c1 = popi [ np.random.choice(popi) ]
-    c2 = popi [ np.random.choice(popi) ]
-
     popii = []
 
-    for _ in range(SIZE_POPULACAO):
+    for _ in range(SIZE_POPULACAO // 2):
+        c1 = popi[np.random.randint(SIZE_POPULACAO)]
+        c2 = popi[np.random.randint(SIZE_POPULACAO)]
+
         if np.random.rand() <= CROSSOVER_RATE:
             beta = np.random.randint(N_GENES)
-            p1 = beta * c1 + (1 - beta) * c2
-            p2 = (1 - beta) * c1 + beta * c2
+            p1 = np.concatenate([c1[:beta], c2[beta:]])
+            p2 = np.concatenate([c2[:beta], c1[beta:]])
         else:
-            p1 = c1, p2 = c2
+            p1, p2 = c1.copy(), c2.copy()
 
-        popii.add(p1)
-        popii.add(p2)
+        popii.append(p1)
+        popii.append(p2)
 
-    return popii
+    return np.array(popii)
 
 def mutation(popii):
     poppp = np.copy(popii)
 
-    for i in range(len(poppp)):
+    for i in range(SIZE_POPULACAO):
         if np.random.rand() <= MUTATION_RATE:
-            alpha = np.random.randint(N_GENES)
+            alpha = np.random.normal(1, 0.1)
             poppp[i] *= alpha
+            poppp[i] = np.clip(poppp[i], -32, 32) #serve pra não estourar, fica entre -32 e 32
 
     return poppp
 
 
 def run():
     popp = init_populacao()
+    historico = []
 
     for _ in range(N_GERACOES):
-
         popi = selection(popp)
-
         popii = crossover(popi)
-
         poppp = mutation(popii)
-
         popp = poppp
 
+        fitness_geracao = [fitness(ind) for ind in popp]
+        historico.append(min(fitness_geracao))
+
+    plt.plot(historico)
+    plt.title("Evolução do Algoritmo Genético (Função Ackley)")
+    plt.xlabel("Geração")
+    plt.ylabel("Melhor Fitness")
+    # plt.show()
+    plt.savefig('evolucao.png')
+
     melhor_ind = min(popp, key=fitness)
-    # print(melhor_ind)
-    print(f"Melhor fitness: {fitness(melhor_ind)}")
+    print(f"Melhor índice: {melhor_ind}\nMelhor fitness: {fitness(melhor_ind)}")
 
 run()
