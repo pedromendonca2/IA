@@ -1,0 +1,14 @@
+- Uma empresa que fabrica 3 produtos: A, B e C. A empresa quer decidir quantas unidades produzir de cada produto
+para maximizar o lucro líquido, respeitando limitações operacionais.
+- Lucro por unidade:
+  - Lucro A: 30 moedas
+  - Lucro B: 50 moedas
+  - Lucro C: 40 moedas
+- Também sabemos o consumo de recurso por unidade:
+  - Produto A precisa de 2h de manufatura e 3 moedas de manufatura
+  - Produto B precisa de 4h de manufatura e 2 moedas de manufatura
+  - Produto C precisa de 3h de manufatura e 4 moedas de manufatura
+- Limites:
+  - Máximo de horas de máquina: 100
+  - Máximo de recursos de matéria-prima: 90
+- Como maximizar o lucro dessa empresa respeitando os limites?
